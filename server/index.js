@@ -3,6 +3,10 @@ const cors = require("cors");
 
 const app = express();
 
+const PORT = 5000;
+
+const collegeRoutes = require("./routes/collegeRoutes");
+
 app.use(cors());
 app.use(express.json());
 
@@ -16,6 +20,8 @@ app.get("/api/message", (req, res) => {
     });
 });
 
-app.listen(5000, () => {
-    console.log("Server running on port 5000");
+app.use("/api/colleges", collegeRoutes);
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

@@ -23,6 +23,7 @@ model College {
   rating          Float
   placementsRate  Float
   ownership       String 
+  nirfRanking     Int
 
   courses         Course[]
   reviews         Review[]

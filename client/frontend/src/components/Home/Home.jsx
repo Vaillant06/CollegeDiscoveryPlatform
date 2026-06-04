@@ -41,6 +41,36 @@ export default function Home() {
 
   console.log(filters);
 
+  const filteredColleges = colleges.filter((college) => {
+    const stateMatch =
+      filters.states.length === 0 ||
+      filters.states.includes(college.state);
+
+    const cityMatch =
+      filters.cities.length === 0 ||
+      filters.cities.includes(college.city);
+
+    const ratingMatch =
+      !filters.rating ||
+      college.rating >= Number(filters.rating);
+
+    const minFeeMatch =
+      !filters.minFee ||
+      college.fees >= Number(filters.minFee);
+
+    const maxFeeMatch =
+      !filters.maxFee ||
+      college.fees <= Number(filters.maxFee);
+
+    return (
+      stateMatch &&
+      cityMatch &&
+      ratingMatch &&
+      minFeeMatch &&
+      maxFeeMatch
+    );
+  });
+
   return (
     <div className="bg-light min-vh-100">
       <Navbar />
@@ -77,14 +107,16 @@ export default function Home() {
 
           {/* Cards */}
           <div className="col-lg-8">
-  <div className="college-card row g-4">
-    {colleges.map((college) => (
-      <div className="col-12" key={college.id}>
-        <CollegeCard college={college} />
-      </div>
-    ))}
-  </div>
-</div>
+          <div className="college-card row g-4">
+            {filteredColleges.length > 0 ? (filteredColleges.map((college) => (
+              <div className="col-12" key={college.id}>
+                <CollegeCard college={college} />
+              </div>
+            ))) : (
+              <p className="text-muted">No colleges found matching your criteria.</p>
+            )}
+          </div>
+        </div>
 
         </div>
       </div>

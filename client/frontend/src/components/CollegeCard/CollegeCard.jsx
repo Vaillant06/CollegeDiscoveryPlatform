@@ -28,6 +28,9 @@ export default function CollegeCard({ college }) {
           <p className="text-muted mb-2"><i className="bi bi-building-fill me-2">
             </i>{college.ownership}
           </p>
+          <p className="text-muted mb-2"><i className="bi bi-bookmark-star-fill me-2">
+            </i>NIRF Ranking: {college.nirfRanking}
+          </p>
 
 
           <div className="options mt-2">

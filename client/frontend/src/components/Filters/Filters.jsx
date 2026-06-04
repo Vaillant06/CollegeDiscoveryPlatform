@@ -6,13 +6,21 @@ export default function Filters({ onFilterChange }) {
   const [rating, setRating] = useState("");
   const [minFee, setMinFee] = useState("");
   const [maxFee, setMaxFee] = useState("");
-  
+
+  const [stateSearch, setStateSearch] = useState("");
+  const [citySearch, setCitySearch] = useState("");
 
   const states = [
     "Tamil Nadu",
     "Karnataka",
     "Kerala",
     "Maharashtra",
+    "Andhra Pradesh",
+    "Telangana",
+    "Gujarat",
+    "Rajasthan",
+    "Punjab",
+    "West Bengal",
   ];
 
   const cities = [
@@ -20,6 +28,12 @@ export default function Filters({ onFilterChange }) {
     "Madurai",
     "Coimbatore",
     "Bangalore",
+    "Mysore",
+    "Hyderabad",
+    "Mumbai",
+    "Pune",
+    "Ahmedabad",
+    "Kolkata",
   ];
 
   const toggleSelection = (value, current, setter) => {
@@ -29,6 +43,18 @@ export default function Filters({ onFilterChange }) {
       setter([...current, value]);
     }
   };
+
+  const filteredStates = stateSearch
+    ? states.filter((state) =>
+        state.toLowerCase().includes(stateSearch.toLowerCase())
+      )
+    : states.slice(0, 5);
+
+  const filteredCities = citySearch
+    ? cities.filter((city) =>
+        city.toLowerCase().includes(citySearch.toLowerCase())
+      )
+    : cities.slice(0, 5);
 
   useEffect(() => {
     onFilterChange({
@@ -45,7 +71,7 @@ export default function Filters({ onFilterChange }) {
     minFee,
     maxFee,
     onFilterChange,
-  ]);
+  ], [1000]);
 
   const clearFilters = () => {
     setSelectedStates([]);
@@ -53,6 +79,8 @@ export default function Filters({ onFilterChange }) {
     setRating("");
     setMinFee("");
     setMaxFee("");
+    setStateSearch("");
+    setCitySearch("");
   };
 
   return (
@@ -71,81 +99,97 @@ export default function Filters({ onFilterChange }) {
 
         {/* State */}
         <div className="mb-4">
-          <label className="form-label fw-semibold">
-            State
-          </label>
+          <label className="form-label fw-semibold">State</label>
 
           <input
             type="text"
-            className="form-control mb-2"
+            className="form-control mb-3"
             placeholder="Search State"
+            value={stateSearch}
+            onChange={(e) => setStateSearch(e.target.value)}
           />
 
-          <div className="d-flex flex-wrap gap-2">
-            {states.map((state) => (
-              <button
-                key={state}
-                type="button"
-                className={`btn btn-sm ${
-                  selectedStates.includes(state)
-                    ? "btn-primary"
-                    : "btn-outline-primary"
-                }`}
-                onClick={() =>
-                  toggleSelection(
-                    state,
-                    selectedStates,
-                    setSelectedStates
-                  )
-                }
-              >
-                {state}
-              </button>
-            ))}
+          <div>
+            {filteredStates.length > 0 ? (
+              filteredStates.map((state) => (
+                <div className="form-check mb-2" key={state}>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id={`state-${state}`}
+                    checked={selectedStates.includes(state)}
+                    onChange={() =>
+                      toggleSelection(
+                        state,
+                        selectedStates,
+                        setSelectedStates
+                      )
+                    }
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor={`state-${state}`}
+                  >
+                    {state}
+                  </label>
+                </div>
+              ))
+            ) : (
+              <p className="text-muted small mb-0">
+                No states found
+              </p>
+            )}
           </div>
         </div>
 
         {/* City */}
         <div className="mb-4">
-          <label className="form-label fw-semibold">
-            City
-          </label>
+          <label className="form-label fw-semibold">City</label>
 
           <input
             type="text"
-            className="form-control mb-2"
+            className="form-control mb-3"
             placeholder="Search City"
+            value={citySearch}
+            onChange={(e) => setCitySearch(e.target.value)}
           />
 
-          <div className="d-flex flex-wrap gap-2">
-            {cities.map((city) => (
-              <button
-                key={city}
-                type="button"
-                className={`btn btn-sm ${
-                  selectedCities.includes(city)
-                    ? "btn-primary"
-                    : "btn-outline-primary"
-                }`}
-                onClick={() =>
-                  toggleSelection(
-                    city,
-                    selectedCities,
-                    setSelectedCities
-                  )
-                }
-              >
-                {city}
-              </button>
-            ))}
+          <div>
+            {filteredCities.length > 0 ? (
+              filteredCities.map((city) => (
+                <div className="form-check mb-2" key={city}>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id={`city-${city}`}
+                  checked={selectedCities.includes(city)}
+                  onChange={() =>
+                    toggleSelection(
+                      city,
+                      selectedCities,
+                      setSelectedCities
+                    )
+                  }
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor={`city-${city}`}
+                >
+                  {city}
+                </label>
+              </div>
+              )) 
+            ) : (
+              <p className="text-muted small mb-0">
+                No cities found
+              </p>
+            )}
           </div>
         </div>
 
         {/* Rating */}
         <div className="mb-4">
-          <label className="form-label fw-semibold">
-            Rating
-          </label>
+          <label className="form-label fw-semibold">Rating</label>
 
           <div className="d-flex gap-2">
             {[4.5, 4, 3].map((r) => (
@@ -168,7 +212,7 @@ export default function Filters({ onFilterChange }) {
         {/* Fees */}
         <div className="mb-4">
           <label className="form-label fw-semibold">
-            Fees Range
+            Fees Range (Lakh/year)
           </label>
 
           <div className="row g-2">
@@ -178,9 +222,7 @@ export default function Filters({ onFilterChange }) {
                 className="form-control"
                 placeholder="Min Fee"
                 value={minFee}
-                onChange={(e) =>
-                  setMinFee(e.target.value)
-                }
+                onChange={(e) => setMinFee(e.target.value)}
               />
             </div>
 
@@ -190,9 +232,7 @@ export default function Filters({ onFilterChange }) {
                 className="form-control"
                 placeholder="Max Fee"
                 value={maxFee}
-                onChange={(e) =>
-                  setMaxFee(e.target.value)
-                }
+                onChange={(e) => setMaxFee(e.target.value)}
               />
             </div>
           </div>

@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model College {
+  id              Int       @id @default(autoincrement())
+  name            String
+  description     String
+  location        String
+  fees            Float
+  rating          Float
+  placementsRate  Float
+
+  courses         Course[]
+  reviews         Review[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  exams Exam[]
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  name        String
+  duration    String
+  fees        Float
+
+  collegeId   Int
+  college     College  @relation(fields: [collegeId], references: [id])
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  username    String
+  comment     String
+  rating      Float
+
+  collegeId   Int
+  college     College  @relation(fields: [collegeId], references: [id])
+}
+
+model Exam {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+
+  college     College[]
+}

@@ -1,0 +1,9 @@
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rating button {
+    border: white 2px;
+    width: 50px;
+}

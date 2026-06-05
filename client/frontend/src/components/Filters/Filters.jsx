@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 
 import "./Filters.css";
 
-export default function Filters({ onFilterChange }) {
+export default function Filters({
+  states,
+  cities,
+  ownerships,
+  onFilterChange,
+}) {
   const [selectedStates, setSelectedStates] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedOwnership, setSelectedOwnership] = useState([]);
@@ -12,37 +17,6 @@ export default function Filters({ onFilterChange }) {
 
   const [stateSearch, setStateSearch] = useState("");
   const [citySearch, setCitySearch] = useState("");
-
-  const states = [
-    "Tamil Nadu",
-    "Karnataka",
-    "Kerala",
-    "Maharashtra",
-    "Andhra Pradesh",
-    "Telangana",
-    "Gujarat",
-    "Rajasthan",
-    "Punjab",
-    "West Bengal",
-  ];
-
-  const cities = [
-    "Chennai",
-    "Madurai",
-    "Coimbatore",
-    "Bangalore",
-    "Mysore",
-    "Hyderabad",
-    "Mumbai",
-    "Pune",
-    "Ahmedabad",
-    "Kolkata",
-  ];
-
-  const ownerships = [
-    "Government",
-    "Private"
-  ];
 
   const toggleSelection = (value, current, setter) => {
     if (current.includes(value)) {
@@ -110,19 +84,21 @@ export default function Filters({ onFilterChange }) {
 
         {/* State */}
         <div className="filter-section mb-4">
-          <label className="form-label fw-semibold mt-2 ">State</label>
+          <label className="form-label fw-semibold mt-2">State</label>
 
           <div className="input-group mb-3">
-            <span className="input-group-text bg-white border-end-0 px-2">
-              <i className="bi bi-search"></i>
-            </span>
+          <span className="input-group-text bg-white border-end-0 px-2">
+            <i className="bi bi-search"></i>
+          </span>
 
-            <input
-              type="text"
-              className="form-control border-start-0 px-1" 
-              placeholder="Search City"
-            />
-          </div>
+          <input
+            type="text"
+            className="form-control border-start-0 px-1"
+            placeholder="Search State"
+            value={stateSearch}
+            onChange={(e) => setStateSearch(e.target.value)}
+          />
+        </div>
 
           <div>
             {filteredStates.length > 0 ? (
@@ -162,16 +138,18 @@ export default function Filters({ onFilterChange }) {
           <label className="form-label fw-semibold mt-2">City</label>
 
           <div className="input-group mb-3">
-            <span className="input-group-text bg-white border-end-0 px-2">
-              <i className="bi bi-search"></i>
-            </span>
+          <span className="input-group-text bg-white border-end-0 px-2">
+            <i className="bi bi-search"></i>
+          </span>
 
-            <input
-              type="text"
-              className="form-control border-start-0 px-1"
-              placeholder="Search City"
-            />
-          </div>
+          <input
+            type="text"
+            className="form-control border-start-0 px-1"
+            placeholder="Search City"
+            value={citySearch}
+            onChange={(e) => setCitySearch(e.target.value)}
+          />
+        </div>
 
           <div>
             {filteredCities.length > 0 ? (
@@ -253,7 +231,9 @@ export default function Filters({ onFilterChange }) {
                     ? "btn-primary"
                     : "btn-outline-primary"
                 }`}
-                onClick={() => setRating(r)}
+                onClick={() =>
+                  setRating(rating === r ? "" : r)
+                }
               >
                 {r}+
               </button>

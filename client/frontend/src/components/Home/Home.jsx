@@ -10,7 +10,9 @@ import "./Home.css";
 export default function Home() {
   const [colleges, setColleges] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [ownerships, setOwnerships] = useState([]);
   const collegesPerPage = 10;
 
   const [filters, setFilters] = useState({
@@ -36,6 +38,18 @@ export default function Home() {
         const data = await response.json();
 
         setColleges(data);
+        setStates(
+          [...new Set(data.map((college) => college.state))]
+        );
+
+        setCities(
+          [...new Set(data.map((college) => college.city))]
+        );
+
+        setOwnerships(
+          [...new Set(data.map((college) => college.ownership))]
+        );
+
       } catch (error) {
         console.error(error);
       }
@@ -94,9 +108,6 @@ export default function Home() {
     filteredColleges.length / collegesPerPage
   );
 
-  useEffect(() => {
-  console.log("Current Page:", currentPage);
-}, [currentPage]);
   return (
     <div className="bg-light min-vh-100">
       <Navbar />
@@ -134,7 +145,12 @@ export default function Home() {
 
           {/* Sidebar */}
           <div className="col-lg-4 mb-4">
-            <Filters onFilterChange={handleFilterChange} />
+            <Filters 
+              states={states}
+              cities={cities}
+              ownerships={ownerships}
+              onFilterChange={handleFilterChange} 
+            />
           </div>
 
           {/* Cards */}

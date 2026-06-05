@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
 
+import "./Filters.css";
+
 export default function Filters({ onFilterChange }) {
   const [selectedStates, setSelectedStates] = useState([]);
   const [selectedCities, setSelectedCities] = useState([]);
+  const [selectedOwnership, setSelectedOwnership] = useState([]);
   const [rating, setRating] = useState("");
   const [minFee, setMinFee] = useState("");
   const [maxFee, setMaxFee] = useState("");
@@ -36,6 +39,11 @@ export default function Filters({ onFilterChange }) {
     "Kolkata",
   ];
 
+  const ownerships = [
+    "Government",
+    "Private"
+  ];
+
   const toggleSelection = (value, current, setter) => {
     if (current.includes(value)) {
       setter(current.filter((item) => item !== value));
@@ -60,6 +68,7 @@ export default function Filters({ onFilterChange }) {
     onFilterChange({
       states: selectedStates,
       cities: selectedCities,
+      ownerships: selectedOwnership,  
       rating,
       minFee,
       maxFee,
@@ -67,15 +76,17 @@ export default function Filters({ onFilterChange }) {
   }, [
     selectedStates,
     selectedCities,
+    selectedOwnership,
     rating,
     minFee,
     maxFee,
     onFilterChange,
-  ], [1000]);
+  ]);
 
   const clearFilters = () => {
     setSelectedStates([]);
     setSelectedCities([]);
+    setSelectedOwnership([]);
     setRating("");
     setMinFee("");
     setMaxFee("");
@@ -98,16 +109,20 @@ export default function Filters({ onFilterChange }) {
         </div>
 
         {/* State */}
-        <div className="mb-4">
-          <label className="form-label fw-semibold">State</label>
+        <div className="filter-section mb-4">
+          <label className="form-label fw-semibold mt-2 ">State</label>
 
-          <input
-            type="text"
-            className="form-control mb-3"
-            placeholder="Search State"
-            value={stateSearch}
-            onChange={(e) => setStateSearch(e.target.value)}
-          />
+          <div className="input-group mb-3">
+            <span className="input-group-text bg-white border-end-0 px-2">
+              <i className="bi bi-search"></i>
+            </span>
+
+            <input
+              type="text"
+              className="form-control border-start-0 px-1" 
+              placeholder="Search City"
+            />
+          </div>
 
           <div>
             {filteredStates.length > 0 ? (
@@ -143,16 +158,20 @@ export default function Filters({ onFilterChange }) {
         </div>
 
         {/* City */}
-        <div className="mb-4">
-          <label className="form-label fw-semibold">City</label>
+        <div className="filter-section mb-4">
+          <label className="form-label fw-semibold mt-2">City</label>
 
-          <input
-            type="text"
-            className="form-control mb-3"
-            placeholder="Search City"
-            value={citySearch}
-            onChange={(e) => setCitySearch(e.target.value)}
-          />
+          <div className="input-group mb-3">
+            <span className="input-group-text bg-white border-end-0 px-2">
+              <i className="bi bi-search"></i>
+            </span>
+
+            <input
+              type="text"
+              className="form-control border-start-0 px-1"
+              placeholder="Search City"
+            />
+          </div>
 
           <div>
             {filteredCities.length > 0 ? (
@@ -187,9 +206,42 @@ export default function Filters({ onFilterChange }) {
           </div>
         </div>
 
+        {/* Ownership */}
+        <div className="filter-section mb-4">
+          <label className="form-label fw-semibold mt-2">
+            Ownership
+          </label>
+
+          <div>
+            {ownerships.map((owner) => (
+              <div className="form-check mb-2" key={owner}>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id={`ownership-${owner}`}
+                  checked={selectedOwnership.includes(owner)}
+                  onChange={() =>
+                    toggleSelection(
+                      owner,
+                      selectedOwnership,
+                      setSelectedOwnership
+                    )
+                  }
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor={`ownership-${owner}`}
+                >
+                  {owner}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Rating */}
-        <div className="mb-4">
-          <label className="form-label fw-semibold">Rating</label>
+        <div className="filter-section mb-4">
+          <label className="form-label fw-semibold mt-2">Rating</label>
 
           <div className="d-flex gap-2">
             {[4.5, 4, 3].map((r) => (
@@ -210,8 +262,8 @@ export default function Filters({ onFilterChange }) {
         </div>
 
         {/* Fees */}
-        <div className="mb-4">
-          <label className="form-label fw-semibold">
+        <div className="filter-section mb-4">
+          <label className="form-label fw-semibold mt-2">
             Fees Range (Lakh/year)
           </label>
 

@@ -3,15 +3,20 @@ import { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import Filters from "../Filters/Filters";
 import CollegeCard from "../CollegeCard/CollegeCard";
+import Pagination from "../Pagination/Pagination";
 
 import "./Home.css";
 
 export default function Home() {
   const [colleges, setColleges] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const collegesPerPage = 10;
 
   const [filters, setFilters] = useState({
     states: [],
     cities: [],
+    ownerships: [],
     rating: "",
     minFee: "",
     maxFee: "",
@@ -39,8 +44,6 @@ export default function Home() {
     fetchColleges();
   }, []);
 
-  console.log(filters);
-
   const filteredColleges = colleges.filter((college) => {
     const stateMatch =
       filters.states.length === 0 ||
@@ -49,6 +52,10 @@ export default function Home() {
     const cityMatch =
       filters.cities.length === 0 ||
       filters.cities.includes(college.city);
+
+    const ownershipMatch =
+      filters.ownerships.length === 0 ||
+      filters.ownerships.includes(college.ownership);
 
     const ratingMatch =
       !filters.rating ||
@@ -65,12 +72,31 @@ export default function Home() {
     return (
       stateMatch &&
       cityMatch &&
+      ownershipMatch &&
       ratingMatch &&
       minFeeMatch &&
       maxFeeMatch
     );
   });
 
+  const indexOfLastCollege =
+    currentPage * collegesPerPage;
+
+  const indexOfFirstCollege =
+    indexOfLastCollege - collegesPerPage;
+
+  const currentColleges = filteredColleges.slice(
+    indexOfFirstCollege,
+    indexOfLastCollege
+  );
+
+  const totalPages = Math.ceil(
+    filteredColleges.length / collegesPerPage
+  );
+
+  useEffect(() => {
+  console.log("Current Page:", currentPage);
+}, [currentPage]);
   return (
     <div className="bg-light min-vh-100">
       <Navbar />
@@ -87,11 +113,17 @@ export default function Home() {
 
         <div className="row justify-content-center mt-4">
           <div className="col-md-8">
-            <input
-              type="text"
-              className="form-control form-control-lg rounded-pill"
-              placeholder="Search colleges..."
-            />
+            <div className="input-group">
+              <span className="input-group-text bg-white border-end-0 px-2">
+                <i className="bi bi-search"></i>
+              </span>
+
+              <input
+                type="text"
+                className="form-control border-start-0 px-1"
+                placeholder="Search Colleges, Exams, Courses..."
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -107,16 +139,39 @@ export default function Home() {
 
           {/* Cards */}
           <div className="col-lg-8">
-          <div className="college-card row g-4">
-            {filteredColleges.length > 0 ? (filteredColleges.map((college) => (
-              <div className="col-12" key={college.id}>
-                <CollegeCard college={college} />
+
+            <p className="text-muted fs-6 mb-3">
+              Showing {filteredColleges.length} colleges
+            </p>
+
+            <div className="row g-4">
+              {currentColleges.length > 0 ? (
+                currentColleges.map((college) => (
+                  <div
+                    className="col-12"
+                    key={college.id}
+                  >
+                    <CollegeCard college={college} />
+                  </div>
+                ))
+              ) : (
+                <p className="text-muted">
+                  No colleges found matching your criteria.
+                </p>
+              )}
+            </div>
+
+            {totalPages > 1 && (
+              <div className="mt-4">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
               </div>
-            ))) : (
-              <p className="text-muted">No colleges found matching your criteria.</p>
             )}
+
           </div>
-        </div>
 
         </div>
       </div>

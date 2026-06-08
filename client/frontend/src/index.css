@@ -115,3 +115,16 @@
     flex-direction: column;
     justify-content: center;
 }
+
+
+/* Predict Colleges*/
+.navigation {
+    display: flex;
+    flex-direction: column;
+}
+
+.predicted-colleges {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

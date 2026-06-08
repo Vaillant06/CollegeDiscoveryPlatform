@@ -1,27 +1,21 @@
+import { Routes, Route } from "react-router-dom";
 
-// import { useState, useEffect } from "react";
-
-import Home from "./components/Home/Home"
+import Home from "../Pages/HomePage";
+import ViewCollegeDetails from "../Pages/ViewCollegeDetails";
+import CompareCollegesPage from "../Pages/CompareCollegesPage";
+import PredictorToolPage from "../Pages/PredictorToolPage";
 
 export function App() {
-
-  // const [message, setMessage] = useState(null);
-
-  // useEffect(() => {
-
-  //     fetch("http://localhost:5000/api/message")
-  //     .then(res => res.json()) 
-  //     .then(data => setMessage(data.text));
-      
-  // });
-
   return (
     <>
-      {/* {message} */}
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/college/:id" element={<ViewCollegeDetails />} />
+        <Route path="/compare/:id" element={<CompareCollegesPage />} />
+        <Route path="/predictor" element={<PredictorToolPage />} />
+      </Routes>
     </>
   );
-
 }
 
 export default App;

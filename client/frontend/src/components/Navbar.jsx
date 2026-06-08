@@ -1,11 +1,19 @@
+
+import { Link } from "react-router-dom";
+
 export default function Navbar() {
+
+  const functionComingSoon = () => {
+    window.alert("Functionality Coming Soon!")
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
       <div className="container-fluid">
         
-        <a className="navbar-brand fw-bold text-primary fs-3" href="#">
-          ChooseYourCareer
-        </a>
+        <Link className="navbar-brand fw-bold text-primary fs-3" to="#">
+          ChooseYourCareer99
+        </Link>
 
         <button
           className="navbar-toggler"
@@ -20,25 +28,39 @@ export default function Navbar() {
           
           <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-3">
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Colleges
-              </a>
+              <Link 
+                to="/predictor" 
+                className="nav-link"
+              >
+                Predictor
+              </Link>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link 
+                to="#" 
+                className="nav-link"
+                onClick={functionComingSoon}
+              >
                 Exams
-              </a>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <Link 
+                to="#" 
+                className="nav-link"
+                onClick={functionComingSoon}
+              >
                 Courses
-              </a>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <button className="btn btn-primary rounded-pill px-4">
+              <button 
+                className="btn btn-primary rounded-pill px-4"
+                onClick={functionComingSoon} 
+              >
                 Login
               </button>
             </li>

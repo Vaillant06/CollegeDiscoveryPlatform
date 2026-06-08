@@ -1,7 +1,12 @@
 
-import "./CollegeCard.css"
+import { Link } from "react-router-dom";
 
 export default function CollegeCard({ college }) {
+
+  const functionComingSoon = () => {
+      window.alert("Functionality Coming Soon!")
+  }
+  
   return (
     <div>
       
@@ -15,12 +20,15 @@ export default function CollegeCard({ college }) {
             <div className="d-flex justify-content-between align-items-start">
               <h5 className="fw-bold fs-4">{college.name}</h5>
                 <div className="small">
-                <span className="btn btn-success">⭐ {college.rating}</span>
+                  <span className="btn btn-success">
+                    <i className="bi bi-star-fill me-2"></i> 
+                    {college.rating}
+                  </span>
+                </div>
             </div>
-            </div>
-
+          
             <p className="text-muted mb-2">
-              <i class="bi bi-geo-alt-fill me-2"></i>
+              <i className="bi bi-geo-alt-fill me-2"></i>
               {college.city}, {college.state}
             </p>
             <p className="text-muted mb-2">
@@ -35,15 +43,20 @@ export default function CollegeCard({ college }) {
 
 
             <div className="options mt-2">
-              <button className="btn btn-sm btn-primary mt-3 mx-3">
+              <Link
+                to={`/college/${college.id}`}
+                className="btn btn-sm btn-primary mt-3 mx-3"
+              >
                 <i className="bi bi-eye me-2"></i>
                 View Details
-              </button>
-              <button className="btn btn-sm btn-outline-primary mt-3 mx-3">
+              </Link>
+              <Link 
+                to={`/compare/${college.id}`}
+                className="btn btn-sm btn-outline-primary mt-3 mx-3">
                 <i className="bi bi-arrow-left-right me-2"></i>
                 Compare
-              </button>
-              <button className="btn btn-sm btn-outline-danger mt-3 mx-3">
+              </Link>
+              <button className="btn btn-sm btn-outline-danger mt-3 mx-3" onClick={functionComingSoon}>
                 <i className="bi bi-question-circle-fill me-2"></i>
                 Enquire
               </button>

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-import "./Filters.css";
 
 export default function Filters({
   states,

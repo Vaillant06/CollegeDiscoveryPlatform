@@ -14,16 +14,24 @@ datasource db {
 }
 
 model College {
-  id              Int       @id @default(autoincrement())
-  name            String
-  description     String
-  city            String
-  state           String
-  fees            Float
-  rating          Float
-  placementsRate  Float
-  ownership       String 
-  nirfRanking     Int
+  id                Int       @id @default(autoincrement())
+  name              String
+  acronym           String?
+  description       String
+  city              String
+  state             String
+  fees              Float
+  rating            Float
+  placementsRate    Float
+  ownership         String 
+  nirfRanking       Int
+  established       Int?
+  campusSize        Float?
+  facultyCount      Int?
+  studentCount      Int?
+  gender            String?
+  malePercentage    Float?
+  femalePercentage  Float?
 
   courses         Course[]
   reviews         Review[]
@@ -38,8 +46,10 @@ model Course {
   id          Int      @id @default(autoincrement())
   name        String
   duration    String
+  stream      String?
+  program     String?
   fees        Float
-
+  acronym     String
   collegeId   Int
   college     College  @relation(fields: [collegeId], references: [id])
 }

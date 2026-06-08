@@ -21,6 +21,7 @@ app.get("/api/message", (req, res) => {
 });
 
 app.use("/api/colleges", collegeRoutes);
+app.use
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

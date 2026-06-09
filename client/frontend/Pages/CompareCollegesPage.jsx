@@ -191,7 +191,7 @@ export default function CompareCollegesPage() {
                         )
                         ) : (
                         <p className="text-muted p-2">
-                            click to search colleges...
+                            Type to search colleges...
                         </p>
                     )}
                 </div>

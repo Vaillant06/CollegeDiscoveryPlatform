@@ -38,9 +38,8 @@ export default function Navbar() {
 
             <li className="nav-item">
               <Link 
-                to="#" 
+                to="/exams" 
                 className="nav-link"
-                onClick={functionComingSoon}
               >
                 Exams
               </Link>
@@ -48,9 +47,8 @@ export default function Navbar() {
 
             <li className="nav-item">
               <Link 
-                to="#" 
+                to="/courses" 
                 className="nav-link"
-                onClick={functionComingSoon}
               >
                 Courses
               </Link>

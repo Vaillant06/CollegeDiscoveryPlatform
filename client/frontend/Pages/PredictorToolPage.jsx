@@ -1,12 +1,10 @@
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Navbar from "../src/components/Navbar";
 
 export default function PredictorToolPage() {
-
-    const navigate = useNavigate();
 
     const [exams, setExams] = useState([]);
     const [selectedExam, setSelectedExam] = useState("");
@@ -31,26 +29,36 @@ export default function PredictorToolPage() {
     }, []);
 
     const handlePredict = async () => {
-        try {
-             const response = await fetch(
-                "http://localhost:5000/api/predictor",
-                {
-                    method: "POST",
-                    headers: {
-                    "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                    examId: selectedExam,
-                    }),
-                }
-            );
-            const data = await response.json();
-            setPredictedColleges(data);
-    
-        } catch (error) {
-            console.error(error);
+    try {
+        const response = await fetch(
+        "http://localhost:5000/api/predictor",
+        {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+            examId: selectedExam,
+            }),
         }
+        );
+
+        if (!response.ok) {
+        throw new Error("Failed to fetch colleges");
+        }
+
+        const data = await response.json();
+
+        console.log("Received:", data);
+
+        setPredictedColleges(data);
+
+    } catch (error) {
+        console.error(error);
     }
+    };
+
+    
 
     return (
         <>
@@ -98,14 +106,6 @@ export default function PredictorToolPage() {
                         <option value="sc">SC</option>
                         <option value="st">ST</option>
                     </select>
-
-                    <label htmlFor="exam" className="form-label mt-3">Gender</label>
-                    <select name="gender" id="gender" className="form-select">
-                        <option value="">-- Select Gender --</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                    </select>
                 </div>
             </div>
 
@@ -118,13 +118,13 @@ export default function PredictorToolPage() {
                 Suggest Colleges
                 </button>
 
-                <button
+                <Link
+                    to='/'
                     className="btn btn-outline-secondary mx-2"
-                    onClick={() => navigate(-1)}
                 >
                 <i className="bi bi-arrow-left me-2"></i>
                 Back
-                </button>
+                </Link>
             </div>
 
             <div className="card text-center mt-5">

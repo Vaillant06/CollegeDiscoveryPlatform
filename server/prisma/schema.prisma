@@ -48,10 +48,10 @@ model Course {
   duration    String
   stream      String?
   program     String?
-  fees        Float
   acronym     String
-  collegeId   Int
-  college     College  @relation(fields: [collegeId], references: [id])
+  description String?
+
+  colleges    College[]
 }
 
 model Review {
@@ -59,7 +59,6 @@ model Review {
   username    String
   comment     String
   rating      Float
-
   collegeId   Int
   college     College  @relation(fields: [collegeId], references: [id])
 }
@@ -68,5 +67,5 @@ model Exam {
   id          Int       @id @default(autoincrement())
   name        String    @unique
 
-  college     College[]
+  colleges     College[]
 }

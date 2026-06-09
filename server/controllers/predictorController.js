@@ -11,7 +11,7 @@ const predictColleges = async (req, res) => {
         id: Number(examId),
       },
       include: {
-        college: true,
+        colleges: true,
       },
     });
 
@@ -21,7 +21,7 @@ const predictColleges = async (req, res) => {
       });
     }
 
-    res.json(exam.college);
+    res.json(exam.colleges);
   } catch (error) {
     console.error(error);
 

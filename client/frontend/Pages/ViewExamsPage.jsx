@@ -8,6 +8,16 @@ export  default function ViewExamsPage() {
 
 
     const [exams, setExams] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const filteredExams =
+    searchTerm.length > 0
+        ? exams.filter((exam) =>
+            exam.name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
+        )
+        : exams;
 
     useEffect(() => {
         const fetchExams = async () => {
@@ -35,10 +45,14 @@ export  default function ViewExamsPage() {
                     <span className="input-group-text bg-white border-end-0">
                         <i className="bi bi-search"></i>
                     </span>
-                    <input 
-                        type="text" 
-                        className="form-control border-start-0" 
-                        placeholder="Search Exams..."
+                    <input
+                    type="text"
+                    className="form-control border-start-0"
+                    placeholder="Search Exams..."
+                    value={searchTerm}
+                    onChange={(e) =>
+                        setSearchTerm(e.target.value)
+                    }
                     />
 
                 </div>
@@ -46,7 +60,7 @@ export  default function ViewExamsPage() {
             
             <div className="container mt-3">
                 <div>
-                    {exams.map(exam => (
+                    {filteredExams.map(exam => (
                         <div key={exam.id} className="card p-3 mb-3">
                             <div className="d-flex justify-content-between mb-3">
                                 <h5>{exam.name}</h5>

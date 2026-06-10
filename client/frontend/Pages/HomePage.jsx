@@ -12,6 +12,7 @@ export default function Home() {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [ownerships, setOwnerships] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const collegesPerPage = 10;
 
   const [filters, setFilters] = useState({
@@ -94,7 +95,11 @@ export default function Home() {
       <Navbar />
 
       {/* Hero */}
-      <Hero />
+      <Hero
+        colleges={colleges}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
 
       {/* Main */}
       <div className="container pb-5 mt-3">

@@ -7,6 +7,16 @@ import Navbar from "../src/components/Navbar";
 export  default function ViewCoursessPage() {
 
     const [courses, setCourses] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const filteredCourses =
+    searchTerm.length > 0
+        ? courses.filter((course) =>
+            course.name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
+        )
+        : courses;
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -33,18 +43,22 @@ export  default function ViewCoursessPage() {
                     <span className="input-group-text bg-white border-end-0">
                         <i className="bi bi-search"></i>
                     </span>
-                    <input 
-                        type="text" 
-                        className="form-control border-start-0" 
-                        placeholder="Search Courses..."
-                    />
+                    <input
+                    type="text"
+                    className="form-control border-start-0"
+                    placeholder="Search Exams..."
+                    value={searchTerm}
+                    onChange={(e) =>
+                        setSearchTerm(e.target.value)
+                    }
+                    />  
 
                 </div>
             </div>
             
             <div className="container mt-3">
                 <div>
-                    {courses.map(course => (
+                    {filteredCourses.map(course => (
                         <div key={course.id} className="card shadow-sm p-3 mb-3">
                             <div className="d-flex justify-content-between mb-3">
                                 <h5>{course.program} - {course.name}</h5>

@@ -1,4 +1,4 @@
-# CollegeDiscoveryPlatform
+# ChooseYourCareer99 -- CollegeDiscoveryPlatform
 
 A full-stack web application that helps students discover, compare, and evaluate colleges across India. Browse detailed college profiles, explore courses and entrance exams, compare institutions side-by-side, and use the predictor tool to find your best-fit colleges.
 
